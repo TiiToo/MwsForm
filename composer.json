@@ -1,5 +1,5 @@
 {
-    "name": "TiiToo/MwsForm",
+    "name": "tiitoo/mwsform",
     "type": "symfony-bundle",
     "description": "Symfony2 Form Select2",
     "keywords": ["mws", "form", "select2"],
@@ -14,8 +14,8 @@
     ],
     "repositories": [
         {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:TiiToo/mwsform.git"
+            "type": "composer",
+            "url":  "https://github.com/TiiToo/MwsForm.git"
         }
     ],
     "replace": {
