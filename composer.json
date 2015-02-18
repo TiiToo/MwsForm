@@ -1,5 +1,5 @@
 {
-    "name": "TiiToo/MwsForm",
+    "name": "tiiToo/mwsform",
     "type": "symfony-bundle",
     "description": "Symfony2 Form Select2",
     "keywords": ["mws", "form", "select2"],
