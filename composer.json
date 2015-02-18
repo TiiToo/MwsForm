@@ -22,7 +22,7 @@
         "TiiToo/MwsForm": "dev-master"
     },
     "autoload": {
-        "psr-0": { "Sistema\\MwsFormBundle\\": "" }
+        "psr-0": { "Sistema\\MWSFORMBundle\\": "" }
     },
-    "target-dir": "Sistema/MwsFormBundle"
+    "target-dir": "Sistema/MWSFORMBundle"
 }
