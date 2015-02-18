@@ -5,8 +5,6 @@ namespace Sistema\MWSFORMBundle\Form\Listener;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Lexik\Bundle\FormFilterBundle\Event\ApplyFilterEvent;
 
-use Sistema\RRHHBundle\Entity\Empleado;
-
 class FilterSubscriber implements EventSubscriberInterface
 {
     /**
@@ -18,8 +16,8 @@ class FilterSubscriber implements EventSubscriberInterface
             'lexik_form_filter.apply.orm.filter_text_like'  => array('filterTextLike'),
             //'lexik_form_filter.apply.orm.text'                 => array('filterTextLike'),
             'lexik_form_filter.apply.dbal.filter_text_like' => array('filterTextLike'),
-            'lexik_form_filter.apply.orm.select2'           => array('filterTextEntity'),
-            'lexik_form_filter.apply.dbal.select2'          => array('filterTextEntity'),
+            //'lexik_form_filter.apply.orm.select2'           => array('filterTextEntity'),
+            //'lexik_form_filter.apply.dbal.select2'          => array('filterTextEntity'),
             //'lexik_form_filter.apply.dbal.text'                => array('filterTextLike'),
         );
     }
@@ -47,7 +45,7 @@ class FilterSubscriber implements EventSubscriberInterface
      * Se necesita tener un por ej: ->join('a.cliente', 'cli') indicar 'cli'
      * Y tambien ->select('a, cli') indicando nuevamente 'cli'
      */
-    public function filterTextEntity(ApplyFilterEvent $event)
+   /* public function filterTextEntity(ApplyFilterEvent $event)
     {
         $qb = $event->getQueryBuilder();
         $values = $event->getValues();
@@ -72,5 +70,5 @@ class FilterSubscriber implements EventSubscriberInterface
                 ;
             }
         }
-    }
+    }*/
 }
