@@ -1,0 +1,38 @@
+twig:
+    form:
+        resources:
+            - SistemaMWSFORMBundle:Form:document_field.html.twig
+            - SistemaMWSFORMBundle:Form:bootstrap.datepicker.html.twig
+            - SistemaMWSFORMBundle:Form:select2_field.html.twig
+            - SistemaMWSFORMBundle:Form:select2articulo_field.html.twig
+services:
+    document_type:
+        class: Sistema\MWSFORMBundle\Form\Type\DocumentType
+        tags:
+            - { name: form.type, alias: document_file }
+    form.type.bootstrapdatetime:
+        class: Sistema\MWSFORMBundle\Form\Type\BootstrapDateTimeType
+        tags:
+            - { name: form.type, alias: bootstrapdatetime }
+    form.type.select2:
+        class: Sistema\MWSFORMBundle\Form\Type\Select2Type
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: select2 }
+    form.type.select2articulo:
+        class: Sistema\MWSFORMBundle\Form\Type\Select2articuloType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: select2articulo }
+    form_text_extension:
+        class: 'Sistema\MWSFORMBundle\Form\Extension\TextoTypeExtension'
+        tags:
+            - { name: form.type_extension, alias: text }
+    form.type.filter_text_like:
+        class: Sistema\MWSFORMBundle\Form\Type\TextFilterLikeType
+        tags:
+            - { name: form.type, alias: filter_text_like }
+    lexik_form_filter.doctrine_subscriber_like:
+        class: Sistema\MWSFORMBundle\Form\Listener\FilterSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

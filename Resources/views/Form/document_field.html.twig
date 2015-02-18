@@ -1,0 +1,22 @@
+{% block document_file_widget %}
+    {% spaceless %}
+    <div class="input-group input-group-lg">
+        <div class="fileinput fileinput-new" data-provides="fileinput">
+            <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                {% if file_url is not null %}
+                    <img src="{{ asset(file_url) }}" />
+                {% else %}
+                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
+                {% endif %}
+            </div>
+            <div class="fileinput-preview fileinput-exists thumbnail" style="width: 200px; height: 150px;"></div>
+            <span class="btn btn-default btn-file" data-trigger="fileinput">
+                <span class="fileinput-new">Seleccionar</span>
+                <span class="fileinput-exists">Cambiar</span>
+                <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %} value="{{ value }}" {% endif %}/>
+            </span>
+            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remover</a>
+        </div>
+    </div>
+    {% endspaceless %}
+{% endblock %}

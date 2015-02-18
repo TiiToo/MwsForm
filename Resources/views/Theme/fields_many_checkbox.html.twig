@@ -1,0 +1,39 @@
+{% block choice_widget_expanded %}
+{% spaceless %}
+	{% if expanded is defined and expanded == true and multiple is defined and multiple == true %}
+		{% set labelchild_ant = null %}
+	    {% for child in form %}
+	    	{% set labelchild = child.vars.label|split(' ') %}
+	    	{% if labelchild[0] != labelchild_ant %}
+	    		{% set labelchild_ant = labelchild[0] %}
+				<hr class="col-lg-12">
+	    	{% endif %}
+	    	<div {{ block('widget_container_attributes') }}>
+	        	{{ form_widget(child) }}
+	        </div>
+	        {{ form_label(child) }}
+	    {% endfor %}
+	{% else %}
+	    <div {{ block('widget_container_attributes') }}>
+	    {% for child in form %}
+	        {{ form_widget(child) }}
+	        {{ form_label(child) }}
+	    {% endfor %}
+	    </div>
+	{% endif %}
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
+
+{% block checkbox_widget %}
+{% spaceless %}
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+      </span>
+      <input type="text" class="form-control" value="{{ label }}" readonly="true">
+    </div><!-- /input-group -->
+{% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block checkbox_label %}
+{% endblock %}

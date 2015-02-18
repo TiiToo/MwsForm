@@ -1,0 +1,28 @@
+{
+    "name": "TiiToo/MwsForm",
+    "type": "symfony-bundle",
+    "description": "Symfony2 Form Select2",
+    "keywords": ["mws", "form", "select2"],
+    
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TecsPro",
+            "email": "mwsimple@gmail.com",
+            "homepage": ""
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@bitbucket.org:TiiToo/mwsform.git"
+        }
+    ],
+    "replace": {
+        "TiiToo/MwsForm": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Sistema\\MwsFormBundle\\": "" }
+    },
+    "target-dir": "Sistema/MwsFormBundle"
+}

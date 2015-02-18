@@ -1,0 +1,10 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block text_widget %}
+    <div class="form-group">
+        {% set type = type|default('text') %}
+             <div class="col-lg-4">
+                <input class="form-control" {%if data_mask %} data-mask ="{{data_mask}}" {%endif%} type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
+             </div>
+    </div>
+{% endblock %}
