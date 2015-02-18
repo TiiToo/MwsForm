@@ -14,8 +14,8 @@
     ],
     "repositories": [
         {
-            "type": "vcs",
-            "url":  "git@bitbucket.org:TiiToo/mwsform.git"
+            "type": "composer",
+            "url":  "https://github.com/TiiToo/MwsForm.git"
         }
     ],
     "replace": {
