@@ -31,4 +31,8 @@ services:
     form.type.filter_text_like:
         class: Sistema\MWSFORMBundle\Form\Type\TextFilterLikeType
         tags:
-            - { name: form.type, alias: filter_text_like }    
+            - { name: form.type, alias: filter_text_like }
+    lexik_form_filter.doctrine_subscriber_like:
+        class: Sistema\MWSFORMBundle\Form\Listener\FilterSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
