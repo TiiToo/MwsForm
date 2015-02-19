@@ -51,26 +51,14 @@ class FilterSubscriber implements EventSubscriberInterface
     {
         $qb = $event->getQueryBuilder();
         $values = $event->getValues();
-        
-        
-        if (!empty($values['value'])) {
-            
-            if ($values['value'] instanceof Empleado){
+            if (!is_null($values['value'])){
                 $qb
-                    ->where('e.id = :id')
-                    ->setParameter('id', $values['value']->getId())
-                    ->getQuery()
-                    ->getResult()
-                ;
-                
-            }else{
-                $qb
-                    ->where('cli.id = :id')
+                    ->where('a.id = :id')
                     ->setParameter('id', $values['value']->getId())
                     ->getQuery()
                     ->getResult()
                 ;
             }
-        }
+        
     }
 }
