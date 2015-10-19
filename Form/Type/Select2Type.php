@@ -10,7 +10,6 @@ namespace Sistema\MWSFORMBundle\Form\Type;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 use Sistema\MWSFORMBundle\Form\DataTransformer\EntityToJsonTransformer;
 use Sistema\MWSFORMBundle\Form\DataTransformer\EntityToJsonOneTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -19,7 +18,6 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\OptionsResolver\Options;
-
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -28,42 +26,43 @@ use Doctrine\Common\Persistence\ObjectManager;
  * @author Bilal Amarni <bilal.amarni@gmail.com>
  * @author Chris Tickner <chris.tickner@gmail.com>
  */
-class Select2Type extends AbstractType
-{
-     /**
-     * @var ObjectManager
-     **/
-     private $om;
+class Select2Type extends AbstractType {
 
     /**
-    * @param ObjectManager $om
-    **/
-    public function __construct(ObjectManager $om)
-    {
-              $this->om = $om;
+     * @var ObjectManager
+     * */
+    private $om;
+
+    /**
+     * @param ObjectManager $om
+     * */
+    public function __construct(ObjectManager $om) {
+        $this->om = $om;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $dataConnect = array('class' => $options['class'], 'om' => $this->om);
         if ($options['configs']['multiple'] === true) {
-            $transformer = new EntityToJsonTransformer($dataConnect);
+            $id = 'id';
+            if (isset($options['configs']['id'])) {
+                $id = $options['configs']['id'];
+            }
+            $transformer = new EntityToJsonTransformer($dataConnect,$id);
         } else {
             $transformer = new EntityToJsonOneTransformer($dataConnect);
         }
         $builder
-            ->addModelTransformer($transformer)
+                ->addModelTransformer($transformer)
         ;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
+    public function buildView(FormView $view, FormInterface $form, array $options) {
 
         if ($options['placeholder'] != '') {
             $options['configs']['placeholder'] = $options['placeholder'];
@@ -75,44 +74,42 @@ class Select2Type extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
+    public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $defaults = array(
-            'placeholder'        => 'Ingrese valor...',
-            'allowClear'         => false,
+            'placeholder' => 'Ingrese valor...',
+            'allowClear' => false,
             'minimumInputLength' => 0,
-            'width'              => 'off',
-            'multiple'           => true,
-            'locked'             => false,
+            'width' => 'off',
+            'multiple' => true,
+            'locked' => false,
         );
 
         $resolver
-            ->setDefaults(array(
-                'configs'     => $defaults,
-                'url'         => '',
-                'placeholder' => '',
+                ->setDefaults(array(
+                    'configs' => $defaults,
+                    'url' => '',
+                    'placeholder' => '',
+                        )
                 )
-            )
         ;
         $resolver
-            ->setRequired(
-                array(
-                    'class',
+                ->setRequired(
+                        array(
+                            'class',
+                        )
                 )
-            )
         ;
     }
 
-    public function getParent()
-    {
+    public function getParent() {
         return 'hidden';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
+    public function getName() {
         return 'select2';
     }
+
 }
