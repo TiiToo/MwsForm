@@ -52,7 +52,12 @@ class Select2Type extends AbstractType {
             }
             $transformer = new EntityToJsonTransformer($dataConnect,$id);
         } else {
-            $transformer = new EntityToJsonOneTransformer($dataConnect);
+            $id = 'id';
+            if (isset($options['configs']['id'])) {
+                $id = $options['configs']['id'];
+            }
+          
+            $transformer = new EntityToJsonOneTransformer($dataConnect,$id);
         }
         $builder
                 ->addModelTransformer($transformer)

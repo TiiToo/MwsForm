@@ -7,8 +7,8 @@ use Symfony\Component\Form\DataTransformerInterface;
 /**
  * Entity to JSON Many To Many
  */
-class EntityToJsonOneTransformer implements DataTransformerInterface
-{
+class EntityToJsonOneTransformer implements DataTransformerInterface {
+
     /**
      * Class para conectarse
      */
@@ -18,21 +18,22 @@ class EntityToJsonOneTransformer implements DataTransformerInterface
      * ObjectManager
      */
     private $om;
+    private $id;
 
-    /***
+    /*     * *
      * Constructor
      */
-    public function __construct($dataConnect)
-    {
+
+    public function __construct($dataConnect, $id) {
         $this->class = $dataConnect['class'];
         $this->om = $dataConnect['om'];
+        $this->id = $id;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function transform($entities)
-    {
+    public function transform($entities) {
         if (!$entities) {
             return null;
         };
@@ -40,14 +41,14 @@ class EntityToJsonOneTransformer implements DataTransformerInterface
         if (is_array($entities)) {
             if (array_key_exists(0, $entities)) {
                 $jsonResponse = $entities->map(function ($entity) {
-                    return array(
-                        'id' => $entity->getId(),
-                        'text' => $entity->__toString()
-                    );
-                })->toArray();
+                            return array(
+                                $this->id => call_user_func(array($entity, 'get' . $this->id)),
+                                'text' => $entity->__toString()
+                            );
+                        })->toArray();
             } else {
                 $cliente = array(
-                    'id'   => $entities->getId(),
+                    $this->id => call_user_func(array($entities, 'get' . $this->id)),
                     'text' => $entities->__toString()
                 );
                 $jsonResponse = $cliente;
@@ -56,24 +57,23 @@ class EntityToJsonOneTransformer implements DataTransformerInterface
             $om = $this->om;
             $class = $this->class;
             $entity = $om
-                ->getRepository($class)
-                ->findOneBy(array('id' => $entities))
+                    ->getRepository($class)
+                    ->findOneBy(array($this->id => $entities))
             ;
             $cliente = array(
-                'id'   => $entity->getId(),
+                $this->id => call_user_func(array($entity, 'get' . $this->id)),
                 'text' => $entity->__toString()
             );
             $jsonResponse = $cliente;
         }
-
+    
         return json_encode($jsonResponse);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function reverseTransform($json)
-    {
+    public function reverseTransform($json) {
         $om = $this->om;
         $class = $this->class;
         $entityResponse = null;
@@ -84,8 +84,8 @@ class EntityToJsonOneTransformer implements DataTransformerInterface
         if (array_key_exists(0, $jEntities)) {
             foreach ($jEntities as $j) {
                 $entity = $om
-                    ->getRepository($class)
-                    ->findOneBy(array('id' => $j['id']))
+                        ->getRepository($class)
+                        ->findOneBy(array($this->id => $j[key($j)]));
                 ;
                 if ($entity) {
                     $entityResponse = $entity;
@@ -93,8 +93,8 @@ class EntityToJsonOneTransformer implements DataTransformerInterface
             }
         } else {
             $entity = $om
-                ->getRepository($class)
-                ->findOneBy(array('id' => $jEntities['id']))
+                    ->getRepository($class)
+                    ->findOneBy(array($this->id => $jEntities[key($jEntities)]));
             ;
             if ($entity) {
                 $entityResponse = $entity;
@@ -103,4 +103,5 @@ class EntityToJsonOneTransformer implements DataTransformerInterface
 
         return $entityResponse;
     }
+
 }

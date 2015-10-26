@@ -39,7 +39,7 @@ class EntityToJsonTransformer implements DataTransformerInterface {
             return null;
         };
         $jsonResponse = array();
-        $métodos_clase = get_class_methods('miclase');
+       // $métodos_clase = get_class_methods('miclase');
         $jsonResponse = $entities->map(function ($entity) {
                     return array(
                         $this->id => call_user_func(array($entity, 'get' . $this->id)),
