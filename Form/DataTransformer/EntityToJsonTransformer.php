@@ -20,15 +20,17 @@ class EntityToJsonTransformer implements DataTransformerInterface {
      */
     private $om;
     private $id;
+    private $opciones;
 
     /*     * *
      * Constructor
      */
 
-    public function __construct($dataConnect, $id) {
+    public function __construct($dataConnect, $id, $opciones) {
         $this->class = $dataConnect['class'];
         $this->om = $dataConnect['om'];
         $this->id = $id;
+        $this->opciones = $opciones;
     }
 
     /**
@@ -39,7 +41,7 @@ class EntityToJsonTransformer implements DataTransformerInterface {
             return null;
         };
         $jsonResponse = array();
-       // $métodos_clase = get_class_methods('miclase');
+        // $métodos_clase = get_class_methods('miclase');
         $jsonResponse = $entities->map(function ($entity) {
                     return array(
                         $this->id => call_user_func(array($entity, 'get' . $this->id)),
@@ -65,7 +67,7 @@ class EntityToJsonTransformer implements DataTransformerInterface {
             $entity = $om
                     ->getRepository($class)
                     ->findOneBy(array($this->id => $j[key($j)]));
-       
+
             if (!$entitiesResponse->contains($entity)) {
                 $entitiesResponse->add($entity);
             }

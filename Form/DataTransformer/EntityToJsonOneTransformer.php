@@ -19,25 +19,33 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
      */
     private $om;
     private $id;
+    private $opciones;
+    private $campo;
 
     /*     * *
      * Constructor
      */
 
-    public function __construct($dataConnect, $id) {
+    public function __construct($dataConnect, $id, $opciones) {
         $this->class = $dataConnect['class'];
         $this->om = $dataConnect['om'];
         $this->id = $id;
+        $this->opciones = $opciones;
     }
 
     /**
      * {@inheritdoc}
      */
     public function transform($entities) {
+        $this->campo = "__toString";
+        if (isset($this->opciones["configs"]["mostrarCampo"])) {
+            $this->campo ='get'. $this->opciones["configs"]["mostrarCampo"];
+        }
         if (!$entities) {
             return null;
         };
         $jsonResponse = array();
+
         if (is_array($entities)) {
             if (array_key_exists(0, $entities)) {
                 $jsonResponse = $entities->map(function ($entity) {
@@ -62,11 +70,11 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
             ;
             $cliente = array(
                 $this->id => call_user_func(array($entity, 'get' . $this->id)),
-                'text' => $entity->__toString()
+                'text' => call_user_func(array($entity, $this->campo)),
             );
             $jsonResponse = $cliente;
         }
-    
+
         return json_encode($jsonResponse);
     }
 
@@ -100,7 +108,6 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
                 $entityResponse = $entity;
             }
         }
-
         return $entityResponse;
     }
 
