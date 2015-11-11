@@ -39,13 +39,12 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
     public function transform($entities) {
         $this->campo = "__toString";
         if (isset($this->opciones["configs"]["mostrarCampo"])) {
-            $this->campo ='get'. $this->opciones["configs"]["mostrarCampo"];
+            $this->campo = 'get' . $this->opciones["configs"]["mostrarCampo"];
         }
         if (!$entities) {
             return null;
         };
         $jsonResponse = array();
-
         if (is_array($entities)) {
             if (array_key_exists(0, $entities)) {
                 $jsonResponse = $entities->map(function ($entity) {
@@ -68,6 +67,7 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
                     ->getRepository($class)
                     ->findOneBy(array($this->id => $entities))
             ;
+   
             $cliente = array(
                 $this->id => call_user_func(array($entity, 'get' . $this->id)),
                 'text' => call_user_func(array($entity, $this->campo)),
