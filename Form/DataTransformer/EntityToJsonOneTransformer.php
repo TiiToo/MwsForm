@@ -67,7 +67,7 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
                     ->getRepository($class)
                     ->findOneBy(array($this->id => $entities))
             ;
-   
+
             $cliente = array(
                 $this->id => call_user_func(array($entity, 'get' . $this->id)),
                 'text' => call_user_func(array($entity, $this->campo)),
@@ -89,24 +89,35 @@ class EntityToJsonOneTransformer implements DataTransformerInterface {
             return $entityResponse;
         }
         $jEntities = json_decode($json, true);
-        if (array_key_exists(0, $jEntities)) {
+
+        if(!$jEntities){
+          $entity = $om
+            ->getRepository($class)
+            ->findOneBy(array($this->id => $json));
+          ;
+          if ($entity) {
+            $entityResponse = $entity;
+          }
+        }else{
+          if (array_key_exists(0, $jEntities)) {
             foreach ($jEntities as $j) {
-                $entity = $om
-                        ->getRepository($class)
-                        ->findOneBy(array($this->id => $j[key($j)]));
-                ;
-                if ($entity) {
-                    $entityResponse = $entity;
-                }
+              $entity = $om
+              ->getRepository($class)
+              ->findOneBy(array($this->id => $j[key($j)]));
+              ;
+              if ($entity) {
+                $entityResponse = $entity;
+              }
             }
-        } else {
+          } else {
             $entity = $om
-                    ->getRepository($class)
-                    ->findOneBy(array($this->id => $jEntities[key($jEntities)]));
+              ->getRepository($class)
+              ->findOneBy(array($this->id => $jEntities[key($jEntities)]));
             ;
             if ($entity) {
-                $entityResponse = $entity;
+              $entityResponse = $entity;
             }
+          }
         }
         return $entityResponse;
     }
