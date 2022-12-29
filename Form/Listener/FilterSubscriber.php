@@ -3,7 +3,7 @@
 namespace Sistema\MWSFORMBundle\Form\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Lexik\Bundle\FormFilterBundle\Event\ApplyFilterEvent;
+use Lexik\Bundle\FormFilterBundle\Event\GetFilterConditionEvent;
 
 use Sistema\RRHHBundle\Entity\Empleado;
 
@@ -29,7 +29,7 @@ class FilterSubscriber implements EventSubscriberInterface
      *
      * This method should work whih both ORM and DBAL query builder.
      */
-   public function filterTextLike(ApplyFilterEvent $event)
+   public function filterTextLike(GetFilterConditionEvent $event)
     {
         $qb = $event->getQueryBuilder();
         $expr = $event->getFilterQuery()->getExpressionBuilder();
@@ -47,7 +47,7 @@ class FilterSubscriber implements EventSubscriberInterface
      * Se necesita tener un por ej: ->join('a.cliente', 'cli') indicar 'cli'
      * Y tambien ->select('a, cli') indicando nuevamente 'cli'
      */
-    public function filterTextEntity(ApplyFilterEvent $event)
+    public function filterTextEntity(GetFilterConditionEvent $event)
     {
         $qb = $event->getQueryBuilder();
         $values = $event->getValues();
